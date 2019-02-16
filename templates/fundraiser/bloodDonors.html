@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% extends 'fundraiser/base.html' %}
+{% block body_block %}
+    <br><h1 style="text-align:center; color:#3E74EB" >Blood Donors</h1>
+    <div class="container" style="margin:20px;">
+    <form method="POST">
+        {% csrf_token %}
+        <br><h4 >Enter details and select required blood group</h4>
+        <input type="text" name="name" class="form-control" placeholder="Enter your name"><br>
+        <input type="number" name="phnumber" class="form-control" placeholder="Enter your phone number" maxlength="10"><br>
+        <select name="bloodgroup">
+            <option value="">Select</option>
+            <option value="O+ve">O+</option>
+            <option value="O-ve">O-</option>
+            <option value="A+ve">A+</option>
+            <option value="A-ve">A-</option>
+            <option value="B+ve">B+</option>
+            <option value="B-ve">B-</option>
+            <option value="AB+ve">AB+</option>
+            <option value="AB-ve">AB-</option>
+        </select><br><br>
+        <p><input type="submit" value="Get Donors" class="btn btn-primary"></p>
+    </form>
+        </div>
+    {% if donors %}
+        <div class="container">
+     {% for donor in donors %}
+            <p><b>We've informed the following donors.If required, feel free to contact them.</b></p>
+            <br><div class="container" style="border: solid 2px black;border-radius:10px;">
+            <p><b>Name</b>&nbsp:&nbsp {{ donor.name }}</p>
+                <p><b>Name</b>&nbsp:&nbsp {{ donor.bloodgroup }}</p>
+                <p><b>Phone Number</b>&nbsp:&nbsp {{ donor.phone_number }}</p>
+                <p> <b>Location</b>&nbsp:&nbsp{{ donor.location }}</p>
+                <p> <b>City</b>&nbsp:&nbsp{{ donor.city }}</p>
+            </div><br>
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

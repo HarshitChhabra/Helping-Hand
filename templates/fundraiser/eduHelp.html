@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends "fundraiser/base.html" %}
+{% load static %}
+{% block header_block %}
+    <style>
+        body{
+            background-image:url("{% static "images/background2.jpg" %}");
+            background-size:cover;
+            background-repeat:no-repeat;
+        }
+    </style>
+{% endblock %}
+{% block body_block %}
+    {% if form %}
+        <div class="container" style="margin:20px;">
+            <h2>Enter Student's Details</h2><br>
+            {% if form.errors %}
+            <br>
+            <div class="container alert alert-danger" role="alert">
+                {% for field in form %}
+                {% for error in field.errors %}
+                    <p>{{ field.label }}:{{ error|escape }}</p>
+
+                {% endfor %}
+            {% endfor %}
+            </div>
+        {% endif %}
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input class="btn btn-primary" value="Submit" type="submit">
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

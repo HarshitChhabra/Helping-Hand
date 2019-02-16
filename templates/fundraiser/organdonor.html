@@ -1,0 +1,60 @@
+{% extends 'fundraiser/base.html' %}
+{% load static %}
+{% block header_block %}
+    <style>
+        body{
+            background-image:url("{% static "images/background2.jpg" %}");
+            background-size:cover;
+            background-repeat:no-repeat;
+        }
+    </style>
+{% endblock %}
+{% block body_block %}
+    {% if org_don %}
+        {% if org_don.errors %}
+            <br>
+            <div class="container alert alert-danger" role="alert">
+                {% for field in org_don %}
+                {% for error in field.errors %}
+                    <p>{{ field.label }}:{{ error|escape }}</p>
+                {% endfor %}
+            {% endfor %}
+            </div>
+        {% endif %}
+        <br><h1>Organ Donation</h1><br>
+        <form method="POST">
+                <div class="form-group">
+                    {% for field in org_don %}
+
+                    {% if field.label == 'Year' %}
+                        <div class="row">
+                        <div class="col">
+                            <LABEL>{{field.label }} of Birth</LABEL>
+                        {{field}}
+                            </div>
+                    {% elif field.label == 'Day' %}
+                            <div class="col">
+                                <LABEL>{{field.label }} of Birth</LABEL>
+                                {{field}}
+                            </div>
+                        </div><br>
+                    {% elif field.label == 'Month' %}
+                            <div class="col">
+                                <LABEL>{{field.label }} of Birth</LABEL>
+                                {{field}}
+                            </div>
+                    {% else %}
+                    <LABEL>{{field.label }}</LABEL>
+                        <p>{{field}}</p>
+
+                    {% endif %}
+                    {% endfor %}
+
+                {% csrf_token %}
+                <input type="submit" value="Register" class="btn btn-primary">
+                </div>
+        </form>
+    {% else %}
+        <p>No data found</p>
+    {% endif %}
+{% endblock %}

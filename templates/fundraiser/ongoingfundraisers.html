@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% extends 'fundraiser/base.html' %}
+{% load static %}
+{% block header_block %}
+    <style>
+        body{
+            background-image:url("{% static "images/background2.jpg" %}");
+            background-size:cover;
+            background-repeat:no-repeat;
+        }
+    </style>
+{% endblock %}
+{% block body_block %}
+{% if fundraiserList %}
+    <br><h1 style="text-align:center;">On going Fundraisers</h1><br>
+    {% for fundraiser in fundraiserList %}
+        <br><div class="container" style="border:1px solid black; border-radius:5px;">
+            <p>Firstname: {{fundraiser.Firstname}}</p>
+            <p>Lastname: {{fundraiser.Lastname}}</p>
+            <p>Purpose: {{fundraiser.Purpose}}</p>
+            <p>Amount: {{fundraiser.amount}}</p>
+            <p>Phone number: {{fundraiser.Phone_number}}</p>
+            <p>Email: {{fundraiser.Email}}</p>
+            <p>Address: {{fundraiser.Address}}</p>
+        </div><br>
+    {% endfor %}
+{% else %}
+    <p>No ongoing Fundraisers found.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% extends "fundraiser/base.html" %}
+{% load static %}
+{% block header_block %}
+    <style>
+        body{
+            background-image:url("{% static "images/background2.jpg" %}");
+            background-size:cover;
+            background-repeat:no-repeat;
+        }
+    </style>
+{% endblock %}
+{% block body_block %}
+    {% if form %}
+        {% if form.errors %}
+            <br>
+
+            <div class="container alert alert-danger" role="alert">
+                {% for field in form %}
+                {% for error in field.errors %}
+                    <p>{{ field.label }}:{{ error|escape }}</p>
+                {% endfor %}
+            {% endfor %}
+            </div>
+        {% endif %}
+        <div class="row">
+        <div class="container col-sm-8" style="padding:20px;">
+            <h1>Enter your details:</h1>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </form>
+        </div>
+            <div class="col-sm-4" style="text-align:center;">
+                <form method="POST">
+                    {% csrf_token %}
+                <button class="btn btn-primary" name="getReqs" style="height:20%;top:40%;position:absolute;">Click here to get list of requests</button>
+                </form>
+            </div>
+
+        </div>
+    {% endif %}
+{% endblock %}
+{% block scriptblock %}
+        $('label[for=id_user], input#id_user').hide();
+        $("#id_user").hide();
+    {% endblock %}

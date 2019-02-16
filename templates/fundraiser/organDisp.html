@@ -1,0 +1,42 @@
+{% extends 'fundraiser/base.html' %}
+{% block body_block %}
+<br><h1 style="text-align:center; color:#3E74EB;">Organ Donors:</h1>
+<h4>Select required organ:</h4>
+<form method="POST">
+    {% csrf_token %}
+    <select name='organpart'>
+        <option value="">Select</option>
+        <option>Heart</option>
+        <option>Lungs</option>
+        <option>Kidneys</option>
+        <option>Liver</option>
+        <option>Corneas</option>
+        <option>Pancreas</option>
+        <option>Tissue</option>
+        <option>Small bowel</option>
+    </select><br><br>
+     <input type="submit" value="Get Donors" class="btn btn-primary"><br>
+    </form>
+    <br>
+    {% if nonefound %}
+        <div class="container">
+            <p><b>No donor found</b></p>
+        </div>
+    {% elif donorlist %}
+        {% for donor in donorlist %}
+            <div class="container" style="border: solid 1px black; border-radius: 5px;">
+                <p><b>First&nbspName</b>&nbsp:&nbsp {{donor.Firstname}}</p>
+                <p><b>Last&nbspName</b>&nbsp:&nbsp{{donor.Lastname}}</p>
+                <p><b>Gender</b>&nbsp:&nbsp{{donor.Gender}}</p>
+                <p><b>Blood&nbspGroup</b>&nbsp:&nbsp{{donor.bloodgroup}}</p>
+                <p><b>Phone&nbspNumber</b>&nbsp:&nbsp{{donor.Phone_number}}</p>
+                <p><b>Email</b>&nbsp:&nbsp{{donor.Email}}</p>
+                <p><b>Address</b>&nbsp:&nbsp{{donor.Address}}</p>
+                <p><b>Religion</b>&nbsp:&nbsp{{donor.Religion}}</p>
+            </div><br>
+        {% endfor %}
+    {% else %}
+        <p></p>
+    {% endif %}
+
+{% endblock %}

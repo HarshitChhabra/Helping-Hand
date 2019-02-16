@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Helping Hand</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style>
+        .navbar-nav > li{
+          margin-left:30px;
+          margin-right:30px;
+        }
+    </style>
+    {% block header_block %}
+    {% endblock %}
+</head>
+<body>
+
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'index' %}">Helping Hand</a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+        <li class="nav-item active"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Get help
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url 'donorsDisp' %}">Blood donors</a>
+              <a class="dropdown-item" href="{% url 'organdisp' %}">Organ donors</a>
+              <a class="dropdown-item" href="{% url 'eduhelp' %}">Educational help</a>
+              <a class="dropdown-item" href="{% url 'fundraiserReg' %}">General financial help</a>
+            </div>
+         </li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'ongoingfundraisers' %}">On going fundraisers</a></li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Become a donor
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url 'bdr' %}">Blood donor</a>
+              <a class="dropdown-item" href="{% url 'organDonor' %}">Organ donor</a>
+              <a class="dropdown-item" href="{% url 'edudonor' %}">Donate for someone's education</a>
+            </div>
+         </li>
+        <!--<li class="nav-item"><a class="nav-link" href="#">About us</a></li>-->
+        <li class="nav-item" id="signoutbtn">
+            <form method="GET" action="{% url 'index' %}">
+            <input style="background:none;border:none; cursor:pointer;" class="nav-link" name="signout" type="submit" value="Signout">
+            </form>
+        </li>
+    </ul>
+    </div>
+</nav>
+
+
+<!-- <button class="btn btn-primary" type="button" onclick="window.location.reload()">Click this</button> -->
+
+<div class="modal" id="loginModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Log into your account</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <form method="POST">
+          <div class="modal-body">
+              {% if userloginform %}
+                {% csrf_token %}
+                {{ userloginform.as_p }}
+                <p>Not registered with us? Click <input type="submit" onclick="location.href='{% url 'signup' %}'" value="here" name="getsignup" style="color:#069; background:none;padding:0;border:none; text-decoration:underline; cursor:pointer;"> to register</p>
+              {% elif signupform %}
+                {% csrf_token %}
+                {% for field in signupform %}
+                    <p><font color="red"> {{field.errors}}</font></p>
+                    <p>{{field.label_tag}} {{field}}</p>
+                    <p style="font-size:90%;"><b>{{field.help_text}}</b></p>
+
+                {% endfor %}
+              {% endif %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="location.href='{% url 'index' %}'" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" id="loginButton" name="loginbtn" value="Login">
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+<div class="container">
+    {% block body_block %}
+    {% endblock %}
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script type="text/javascript">
+if(!navigator.geolocation)
+    alert('not works');
+else
+{
+    navigator.geolocation.getCurrentPosition(success,error);
+}
+function success(position){
+
+    var lat=position.coords.latitude;
+    var lng=position.coords.longitude;
+    alert(lat+' '+lng);
+}
+function error(position){
+    alert('Some error occured');
+}
+{% if signupform %}
+      $("#loginModal").modal('show');
+      $("#loginButton").val("Sign up");
+{% elif userloginform %}
+    $("#loginModal").modal('show');
+    $("#loginButton").val("Log in");
+{% else %}
+    $("#loginModal").hide();
+{% endif %}
+{% if user.is_authenticated %}
+    $("#signoutbtn").show();
+{% else %}
+    $("#signoutbtn").hide();
+{% endif %}
+{% block scriptblock %}
+{% endblock %}
+</script>
+</body>
+</html>

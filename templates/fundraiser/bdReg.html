@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends "fundraiser/base.html" %}
+{% load static %}
+{% block header_block %}
+    <style>
+        body{
+            background-image:url("{% static "images/background2.jpg" %}");
+        }
+    </style>
+{% endblock %}
+{% block body_block %}
+    {% if bdReg %}
+        {% if bdReg.errors %}
+            <br>
+            <div class="container alert alert-danger" role="alert">
+                {% for field in bdReg %}
+                {% for error in field.errors %}
+                    <p>{{ field.label }}:{{ error|escape }}</p>
+
+                {% endfor %}
+            {% endfor %}
+            </div>
+        {% endif %}
+        <br><h1>Blood Donor Registration: </h1><br>
+        <form method="POST">
+            <div class="form-group">
+            {{ bdReg.as_p }}
+            {% csrf_token %}
+            <input type="submit" value="Register" class="btn btn-primary">
+            </div>
+        </form>
+    {% else %}
+        <p>Not found</p>
+    {% endif %}
+{% endblock %}

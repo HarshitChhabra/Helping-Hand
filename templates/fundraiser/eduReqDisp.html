@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% extends 'fundraiser/base.html' %}
+{% load static %}
+{% block header_block %}
+    <style>
+        body{
+            background-image:url("{% static "images/background2.jpg" %}");
+            background-size:cover;
+            background-repeat:no-repeat;
+        }
+    </style>
+{% endblock %}
+{% block body_block %}
+    {% if reqs %}
+        <br><h1 style="text-align:center;">Education Requests:</h1><br>
+        {% for req in reqs %}
+            <div style="border:1px solid black;border-radius:5px;padding:5px;margin:10px;">
+                <p>First Name: {{ req.firstname }}</p>
+                <p>Last name: {{ req.lastname }}</p>
+                <p>Contact number: {{ req.phone_number }}</p>
+                <p>Current education: {{ req.currentedu }}</p>
+                <p>Seeking Education: {{ req.seekingedu }}</p>
+                <p>Required amount: Rs.{{ req.reqamt }}</p>
+                <p>Location :{{ req.location }}</p>
+                <p>City: {{ req.city }}</p>
+                <p>Note: {{ req.note }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

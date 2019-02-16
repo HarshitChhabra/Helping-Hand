@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% extends 'fundraiser/base.html' %}
+{% block body_block %}
+    {% if pendingFundraisersList %}
+       <br> <div class="container">
+            <ul class="list-group">
+                {% for fundraiser in pendingFundraisersList %}
+                    <li class="list-group-item">Request for {{fundraiser.Purpose}} need. &nbsp; &nbsp; ID:{{fundraiser.id}}
+                        <button class="btn btn-primary" style="float:right;" onclick="location.href='{% url 'ngoVerifyPage' fundraiser.id %}'">Open</button></li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <br><b><p>No pending fundraiser requests found</p></b>
+    {% endif %}
+{% endblock %}

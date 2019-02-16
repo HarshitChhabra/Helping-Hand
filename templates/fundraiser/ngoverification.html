@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% extends 'fundraiser/base.html' %}
+{% block body_block %}
+    <form method="POST">
+        {% csrf_token %}
+        <br><div class="container" style="border:1px solid black; border-radius:5px;">
+            <p>Firstname: {{objectToBeVerified.Firstname}}</p>
+            <p>Lastname: {{objectToBeVerified.Lastname}}</p>
+            <p>Purpose: {{objectToBeVerified.Purpose}}</p>
+            <p>Amount: {{objectToBeVerified.amount}}</p>
+            <p>Phone number: {{objectToBeVerified.Phone_number}}</p>
+            <p>Email: {{objectToBeVerified.Email}}</p>
+            <p>Address: {{objectToBeVerified.Address}}</p>
+            <p>{{ form }}</p>
+            <input type="submit" value="Update" class="btn btn-primary"><br><br>
+        </div><br>
+    </form>
+{% endblock %}

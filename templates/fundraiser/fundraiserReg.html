@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% extends 'fundraiser/base.html' %}
+{% load static %}
+{% block header_block %}
+    <style>
+        body{
+            background-image:url("{% static "images/background2.jpg" %}");
+            background-size:cover;
+            background-repeat:no-repeat;
+        }
+    </style>
+{% endblock %}
+{% block body_block %}
+<br><h1>Registration for new Fundraiser</h1><br>
+{% if fundraiserForm %}
+<form method="POST">
+    <div class="form-group">
+        {% for field in fundraiserForm %}
+                    {{field.errors}}
+                    {% if field.label == 'Year' %}
+                        <div class="row">
+                        <div class="col">
+                            <LABEL>{{field.label }} of Birth</LABEL>
+                        {{field}}
+                            </div>
+                    {% elif field.label == 'Day' %}
+                            <div class="col">
+                                <LABEL>{{field.label }} of Birth</LABEL>
+                                {{field}}
+                            </div>
+                        </div><br>
+                    {% elif field.label == 'Month' %}
+                            <div class="col">
+                                <LABEL>{{field.label }} of Birth</LABEL>
+                                {{field}}
+                            </div>
+                    {% else %}
+                    <LABEL>{{field.label }}</LABEL>
+                        <p>{{field}}</p>
+
+                    {% endif %}
+                    {% endfor %}
+        {% csrf_token %}
+        <input type="submit" value="Submit" name="createFundraiser" class="btn btn-primary"><br><br>
+    </div>
+</form>
+{% endif %}
+{% if successful %}
+<div class="container">
+    <p>Your request for new Fundraiser is registered. We'll forward this to a NGO, get it verified and start the fundraiser on our website at earliest.</p>
+</div>
+{% endif %}
+{% endblock %}
